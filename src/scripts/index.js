@@ -1,4 +1,5 @@
 let local_storage_supported = checkLocalStorage()
+
 // console.log(`localStorage supported = ${local_storage_supported}`)
 
 function checkLocalStorage () {
@@ -33,6 +34,10 @@ function removeMainItems () {
 
 function displayMenu () {
   let main_div = document.getElementById(`main`)
+  // removeAllChildren(main_div)
+  let list_div = document.getElementById(`list_div`)
+  if (list_div !== null) main_div.removeChild(list_div)
+
   let menu = document.createElement(`ol`)
   menu.id = `menu`
   main_div.appendChild(menu)
@@ -47,6 +52,20 @@ function displayMenu () {
       } catch (e) { console.log(list_name, e)}
     }
   }
+}
+
+function removeAllChildren (parent) {
+  console.log(`parent`, parent)
+
+  for (let child in parent.children) {
+    if (parent.children.hasOwnProperty(child) && parent.children[child].id !== `clear_all_lists`) {
+      console.log(parent, child, parent.children[child])
+      console.log(`removing child...`)
+      parent.removeChild(parent.children[child])
+    }
+  }
+
+  console.log(`parent`, parent)
 }
 
 function getMenuListItem (name) {
@@ -65,18 +84,22 @@ function getListElements (name) {
   let main = document.getElementById(`main`)
   main.removeChild(document.getElementById(`menu`))
 
+  let list_div = document.createElement(`div`)
+  list_div.id = `list_div`
+  main.appendChild(list_div)
+
   let h2 = document.createElement(`h2`)
   h2.id = `list_name`
   h2.innerHTML = name
-  main.appendChild(h2)
+  list_div.appendChild(h2)
 
   let h_outs = document.createElement(`h4`)
   h_outs.innerHTML = `Outstanding Items:`
-  main.appendChild(h_outs)
+  list_div.appendChild(h_outs)
 
   let ol_outs = document.createElement(`ol`)
   ol_outs.id = `outs_items`
-  main.appendChild(ol_outs)
+  list_div.appendChild(ol_outs)
 
   let i = document.createElement(`input`)
   i.type = `text`
@@ -85,26 +108,31 @@ function getListElements (name) {
   let l = document.createElement(`label`)
   l.htmlFor = i.id
   l.innerHTML = `Add item: `
-  main.appendChild(l)
-  main.appendChild(i)
+  list_div.appendChild(l)
+  list_div.appendChild(i)
 
   let b = document.createElement(`button`)
   b.textContent = `Add item`
   b.onclick = () => addItem()
-  main.appendChild(b)
+  list_div.appendChild(b)
 
   let s = document.createElement(`span`)
   s.id = `add_error`
   s.style.color = `red`
-  main.appendChild(s)
+  list_div.appendChild(s)
 
   let h_comp = document.createElement(`h4`)
   h_comp.innerHTML = `Completed Items:`
-  main.appendChild(h_comp)
+  list_div.appendChild(h_comp)
 
   let ol_comp = document.createElement(`ol`)
   ol_comp.id = `comp_items`
-  main.appendChild(ol_comp)
+  list_div.appendChild(ol_comp)
+
+  let br = document.createElement(`button`)
+  br.textContent = `Return to lists menu`
+  br.onclick = () => displayMenu()
+  list_div.appendChild(br)
 
   displayList(name)
 }

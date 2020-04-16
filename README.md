@@ -1,2 +1,2 @@
 # shopping-list-no-db
-Simple JavaScript todo list using Web SQL Database
+Simple JavaScript todo list using browser localStorage instead of a client side database
