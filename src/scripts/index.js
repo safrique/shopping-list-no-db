@@ -5,7 +5,6 @@ window.onload = () => {
   localStorage.setItem(`key4`, ``)
 
   displayLists()
-  // console.log(localStorage)
 }
 
 function displayLists () {
@@ -31,7 +30,6 @@ function displayLists () {
 function itemStatusChanged (cb) {
   let li = document.getElementById(cb.id.replace(`cb`, `li`))
   let key = document.getElementById(cb.id.replace(`cb`, `span`)).innerHTML
-  // console.log(`key=${key} -- cb=${cb.checked}`)
   let outs = document.getElementById(`outs_items`)
   let comp = document.getElementById(`comp_items`)
 
