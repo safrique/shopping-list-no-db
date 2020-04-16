@@ -15,23 +15,25 @@
     <!-- TODO: Add theme switcher button here from https://github.com/kognise/water.css#other-options -->
 </header>
 <body style="padding-left: 2em">
-<h1>ToDo List</h1>
+<h1 id="main_header">ToDo Lists</h1>
 
-<h2 id="list_name">ToDo List</h2>
+<div id="main">
 
-<h3>Outstanding Items:</h3>
-<ol id="outs_items">
-</ol>
-
-<label for="add_item">Add item: </label>
-<input type="text" id="add_item">
-<input type="button" value="Add" onclick="addItem()">
-<span id="add_error"></span>
-
-<h3>Completed Items:</h3>
-<ol id="comp_items">
-</ol>
-
-<button onclick="clearLocalStorage()">Clear list</button>
+    <button onclick="clearLocalStorage()">Clear list</button>
+</div>
 </body>
 </html>
+
+
+<!--    <h3>Outstanding Items:</h3>-->
+<!--    <ol id="outs_items">-->
+<!--    </ol>-->
+
+<!--    <label for="add_item">Add item: </label>-->
+<!--    <input type="text" id="add_item">-->
+<!--    <input type="button" value="Add" onclick="addItem()">-->
+<!--    <span id="add_error"></span>-->
+
+<!--    <h3>Completed Items:</h3>-->
+<!--    <ol id="comp_items">-->
+<!--    </ol>-->
