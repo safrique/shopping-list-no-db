@@ -1,2 +1,2 @@
 # shopping-list-no-db
-JavaScript todo list
+Simple JavaScript todo list using Web SQL Database
