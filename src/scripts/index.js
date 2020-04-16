@@ -119,38 +119,41 @@ function displayLists (name) {
   let outs = document.getElementById(`outs_items`)
   let comp = document.getElementById(`comp_items`)
 
-  for (let key in localStorage) {
-    if (localStorage.hasOwnProperty(key)) {
+  for (let list in localStorage) {
+    if (localStorage.hasOwnProperty(list)) {
       try {
-        let item = JSON.parse(localStorage[key])
-        console.log(key, item)
+        let list_obj = JSON.parse(localStorage[list])
+        // console.log(list, list_obj)
 
-        if (name === key) {
-          console.log(`found list ${name}`)
+        if (name === list) {
+          // console.log(`found list: ${name}`)
 
           // loop over object and get each key=>value pair
+          for (let key in list_obj) {
+            if (list_obj.hasOwnProperty(key)) {
+              let items = getListItem(key)
+              console.log(`list=${list} -- key=${key}`, items)
 
-          // let items = getListItem(key)
-          //
-          // if (Boolean(localStorage[key]) === true) {
-          //   items.cb.checked = true
-          //   comp.appendChild(items.li)
-          //   continue
-          // }
-          //
-          // items.cb.checked = false
-          // outs.appendChild(items.li)
+              if (list_obj[key]) {
+                items.cb.checked = true
+                comp.appendChild(items.li)
+                continue
+              }
 
+              items.cb.checked = false
+              outs.appendChild(items.li)
+            }
+          }
           break
         }
-      } catch (e) { console.log(key, e)}
+      } catch (e) { console.log(list, e)}
     }
   }
 }
 
 function itemStatusChanged (cb) {
   let li = document.getElementById(cb.id.replace(`cb`, `li`))
-  let key = document.getElementById(cb.id.replace(`cb`, `span`)).innerHTML
+  let s = document.getElementById(cb.id.replace(`cb`, `span`)).innerHTML
   let outs = document.getElementById(`outs_items`)
   let comp = document.getElementById(`comp_items`)
 
@@ -162,7 +165,11 @@ function itemStatusChanged (cb) {
     outs.appendChild(li)
   }
 
-  // localStorage.setItem(key, cb.checked ? `checked` : ``)
+  // localStorage.setItem(s, cb.checked ? `checked` : ``)
+}
+
+function updateLocalstorage () {
+
 }
 
 function getListItem (key) {
@@ -187,20 +194,24 @@ function getListItem (key) {
 
 function addItem () {
   console.log(`adding item...`)
-  // let item = document.getElementById(`add_item`)
-  // let error_span = document.getElementById(`add_error`)
-  //
-  // if (item.value === ``) {
-  //   error_span.innerHTML = `Please enter a value to add!!`
-  //   return false
-  // }
-  //
-  // error_span.innerHTML = ``
+  let item = document.getElementById(`add_item`)
+  let error_span = document.getElementById(`add_error`)
+
+  if (item.value === ``) {
+    error_span.innerHTML = `Please enter a value to add!!`
+    return false
+  }
+
+  error_span.innerHTML = ``
   // localStorage.setItem(item.value, `checked`)
-  // let new_item = getListItem(item.value)
-  // new_item.cb.checked = false
-  // document.getElementById(`outs_items`).appendChild(new_item.li)
-  // item.value = ``
+  let new_item = getListItem(item.value)
+  new_item.cb.checked = false
+  document.getElementById(`outs_items`).appendChild(new_item.li)
+  item.value = ``
+}
+
+function clearList () {
+
 }
 
 function clearLocalStorage () {
