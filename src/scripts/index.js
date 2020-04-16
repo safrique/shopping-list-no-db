@@ -1,5 +1,5 @@
 let local_storage_supported = checkLocalStorage()
-console.log(`localStorage supported = ${local_storage_supported}`)
+// console.log(`localStorage supported = ${local_storage_supported}`)
 
 function checkLocalStorage () {
   try {
@@ -13,19 +13,14 @@ function checkLocalStorage () {
 }
 
 window.onload = () => {
-  // localStorage.setItem(`key1`, `checked`)
-  // localStorage.setItem(`key2`, ``)
-  // localStorage.setItem(`key3`, `checked`)
-  // localStorage.setItem(`key4`, ``)
-  localStorage.setItem(`list1`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
-  localStorage.setItem(`list2`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
-  localStorage.setItem(`list3`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
-  localStorage.setItem(`list4`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
+  // localStorage.setItem(`list1`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
+  // localStorage.setItem(`list2`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
+  // localStorage.setItem(`list3`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
+  // localStorage.setItem(`list4`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
 
   if (local_storage_supported) {
     displayMenu()
   } else { removeMainItems() }
-  // displayLists()
 }
 
 function removeMainItems () {
@@ -45,9 +40,8 @@ function displayMenu () {
   for (let list_name in localStorage) {
     if (localStorage.hasOwnProperty(list_name)) {
       try {
-        let item = JSON.parse(localStorage[list_name])
+        JSON.parse(localStorage[list_name])
         // console.log(list_name, item)
-
         let li = getMenuListItem(list_name)
         menu.appendChild(li)
       } catch (e) { console.log(list_name, e)}
@@ -57,7 +51,7 @@ function displayMenu () {
 
 function getMenuListItem (name) {
   let a = document.createElement(`a`)
-  a.onclick = () => showList(name)
+  a.onclick = () => getListElements(name)
   a.innerHTML = name
   a.style.cursor = `pointer`
   let s = document.createElement(`span`)
@@ -67,7 +61,7 @@ function getMenuListItem (name) {
   return li
 }
 
-function showList (name) {
+function getListElements (name) {
   let main = document.getElementById(`main`)
   main.removeChild(document.getElementById(`menu`))
 
@@ -112,10 +106,10 @@ function showList (name) {
   ol_comp.id = `comp_items`
   main.appendChild(ol_comp)
 
-  displayLists(name)
+  displayList(name)
 }
 
-function displayLists (name) {
+function displayList (name) {
   let outs = document.getElementById(`outs_items`)
   let comp = document.getElementById(`comp_items`)
 
@@ -132,7 +126,7 @@ function displayLists (name) {
           for (let key in list_obj) {
             if (list_obj.hasOwnProperty(key)) {
               let items = getListItem(key)
-              console.log(`list=${list} -- key=${key}`, items)
+              // console.log(`list=${list} -- key=${key}`, items)
 
               if (list_obj[key]) {
                 items.cb.checked = true
@@ -153,7 +147,7 @@ function displayLists (name) {
 
 function itemStatusChanged (cb) {
   let li = document.getElementById(cb.id.replace(`cb`, `li`))
-  let s = document.getElementById(cb.id.replace(`cb`, `span`)).innerHTML
+  let list_item = document.getElementById(cb.id.replace(`cb`, `span`)).innerHTML
   let outs = document.getElementById(`outs_items`)
   let comp = document.getElementById(`comp_items`)
 
@@ -165,11 +159,37 @@ function itemStatusChanged (cb) {
     outs.appendChild(li)
   }
 
-  // localStorage.setItem(s, cb.checked ? `checked` : ``)
+  // console.log(`list_item=${list_item}`)
+  // localStorage.setItem(list_item, cb.checked ? `checked` : ``)
+  updateLocalstorage(list_item, cb.checked)
 }
 
-function updateLocalstorage () {
+function updateLocalstorage (list_item, new_val) {
+  let list_name = document.getElementById(`list_name`).innerHTML
+  // console.log(`list_name=${list_name} -- list_item=${list_item} -- new_val=${new_val}`)
+  // console.log(localStorage)
 
+  for (let list in localStorage) {
+    if (localStorage.hasOwnProperty(list) && list === list_name) {
+      // console.log(`list=${list} -- val=${localStorage[list]}`)
+      let items = JSON.parse(localStorage[list])
+      // console.log(items)
+
+      for (let key in items) {
+        if (items.hasOwnProperty(key) && list_item === key) {
+          // console.log(`list_item=${key} -- val=${items[key]} -- new_val=${new_val}`)
+          items[key] = new_val
+          break
+        }
+      }
+
+      items = JSON.stringify(items)
+      // console.log(`new_items`, items)
+      localStorage[list] = items
+      // console.log(localStorage)
+      break
+    }
+  }
 }
 
 function getListItem (key) {
@@ -217,8 +237,8 @@ function clearList () {
 function clearLocalStorage () {
   if (confirm(`Are you sure you want to clear all list? This can't be undone!!`)) {
     localStorage.clear()
-    let li = document.querySelectorAll(`li`)
+    let li = document.querySelectorAll(` li`)
 
-    for (let i = 0, j = li.length; i < j; i++) { li[i].parentNode.removeChild(li[i])}
+    for (let i = 0, j = li.length; i < j; i++) {li[i].parentNode.removeChild(li[i])}
   }
 }
