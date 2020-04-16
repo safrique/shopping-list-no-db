@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- https://github.com/kognise/water.css-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+    <!-- https://www.cssbed.com/ -->
+    <!-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>-->
+    <link rel="stylesheet" href="https://www.w3.org/StyleSheets/Core/Chocolate" type="text/css">
 
     <script src="src/scripts/index.js" type="text/javascript"></script>
-    <script src="src/scripts/db.js" type="text/javascript"></script>
     <title>ToDo List</title>
 </head>
 <header>
@@ -23,10 +23,15 @@
 <ol id="outs_items">
 </ol>
 
+<label for="add_item">Add item: </label>
+<input type="text" id="add_item">
+<input type="button" value="Add" onclick="addItem()">
+<span id="add_error"></span>
+
 <h3>Completed Items:</h3>
 <ol id="comp_items">
 </ol>
 
-<!--    <div id="test">Data</div>-->
+<button onclick="clearLocalStorage()">Clear list</button>
 </body>
 </html>
