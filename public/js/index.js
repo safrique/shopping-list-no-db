@@ -1,3 +1,5 @@
+`use strict`
+
 let localStorage_supported = checkLocalStorageSupported()
 
 // console.log(`localStorage supported = ${localStorage_supported}`)
@@ -204,6 +206,11 @@ function getListElements (name) {
   rd.style.color = `red`
   rd.id = `rename_error`
   list_div.appendChild(rd)
+
+  let cob = document.createElement(`button`)
+  cob.onclick = () => copyList()
+  cob.innerHTML = `Copy list to a new list`
+  list_div.appendChild(cob)
 
   let h_outs = document.createElement(`h4`)
   h_outs.innerHTML = `Outstanding Items:`
@@ -482,5 +489,18 @@ function renameList () {
 }
 
 function copyList () {
+  let new_list = prompt(`Please enter a name for the list to copy to`)
+  let error_div = document.getElementById(`rename_error`)
+  error_div.innerHTML = ``
 
+  if (new_list === ``) {
+    error_div.innerHTML = `Please enter a valid list name to copy to`
+    return false
+  }
+
+  console.log(new_list)
+  error_div.innerHTML = ``
+  let old_list = document.getElementById(`list_name`).innerHTML
+  localStorage.setItem(new_list, localStorage.getItem(old_list))
+  displayMenu()
 }
