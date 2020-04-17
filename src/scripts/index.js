@@ -1,10 +1,10 @@
-let local_storage_supported = checkLocalStorageSupported()
+let localStorage_supported = checkLocalStorageSupported()
 
-// console.log(`localStorage supported = ${local_storage_supported}`)
+// console.log(`localStorage supported = ${localStorage_supported}`)
 
 function checkLocalStorageSupported () {
   try {
-    let test = `check_local_storage_supported`
+    let test = `check_localStorage_supported`
     localStorage.setItem(test, test)
     localStorage.removeItem(test)
     return true
@@ -14,7 +14,7 @@ function checkLocalStorageSupported () {
 }
 
 window.onload = () => {
-  if (local_storage_supported) {
+  if (localStorage_supported) {
     if (!localStorage.length) addTestLists()
     displayMenu()
   } else { removeMainItems() }
@@ -184,9 +184,14 @@ function getMenuListItem (name) {
 
 function getListElements (name) {
   let main = document.getElementById(`main`)
-  main.removeChild(document.getElementById(`menu`))
 
-  let list_div = document.createElement(`div`)
+  let menu = document.getElementById(`menu`)
+  if (menu) main.removeChild(menu)
+
+  let list_div = document.getElementById(`menu`)
+  if (list_div) main.removeChild(list_div)
+
+  list_div = document.createElement(`div`)
   list_div.id = `list_div`
   main.appendChild(list_div)
 
@@ -235,6 +240,21 @@ function getListElements (name) {
   br.textContent = `Return to lists menu`
   br.onclick = () => displayMenu()
   list_div.appendChild(br)
+
+  let bc = document.createElement(`button`)
+  bc.textContent = `Delete completed list items`
+  bc.onclick = () => clearList()
+  list_div.appendChild(bc)
+
+  let bl = document.createElement(`button`)
+  bl.textContent = `Delete ALL list items`
+  bl.onclick = () => clearList(true)
+  list_div.appendChild(bl)
+
+  let bd = document.createElement(`button`)
+  bd.textContent = `Delete list`
+  bd.onclick = () => deleteList()
+  list_div.appendChild(bd)
 
   displayList(name)
 }
@@ -367,9 +387,59 @@ function addItem () {
   item.value = ``
 }
 
-function clearList () {}
+function clearList (all = false) {
+  if (confirm(`Are you sure you want to delete these items? This can't be undone!!`)) {
+    // console.log(`clearing list: ${all ? 'all' : 'completed'} items...`)
+    let list = document.getElementById(`list_name`).innerHTML
 
-function deleteList () {}
+    for (let curr_list in localStorage) {
+      if (localStorage.hasOwnProperty(curr_list) && list === curr_list) {
+        if (all) {
+          localStorage.setItem(list, `{}`)
+          break
+        }
+
+        let data = JSON.parse(localStorage[curr_list])
+        // console.log(`data`, data)
+
+        for (let item in data) {
+          if (data.hasOwnProperty(item) && data[item]) {
+            // console.log(`deleting data[item]`, data[item])
+            delete data[item]
+          }
+        }
+
+        localStorage.setItem(list, JSON.stringify(data))
+        break
+      }
+    }
+
+    let li = document.querySelectorAll(`li`)
+    // console.log(li)
+    for (let i in li) {
+      if (li.hasOwnProperty(i) && (all || li[i].firstChild.firstChild.checked)) {
+        // console.log(`i=${i} -- li[i]`, li[i])
+        // console.log(li[i].firstChild.firstChild.checked)
+        li[i].parentElement.removeChild(li[i])
+      }
+    }
+  }
+}
+
+function deleteList () {
+  if (confirm(`Are you sure you want to delete this list? This can't be undone!!`)) {
+    console.log(`deleting list...`)
+    let list_name = document.getElementById(`list_name`).innerHTML
+
+    for (let list in localStorage) {
+      if (localStorage.hasOwnProperty(list) && list === list_name) {
+        localStorage.removeItem(list)
+      }
+    }
+
+    displayMenu()
+  }
+}
 
 function clearLocalStorage () {
   if (confirm(`Are you sure you want to clear all list? This can't be undone!!`)) {
