@@ -1,6 +1,11 @@
+// import * as list from '../../app/Services/List'
+
 `use strict`
 
 let localStorage_supported = checkLocalStorageSupported()
+
+// let list = new List()
+// console.log(list.add_item)
 
 // console.log(`localStorage supported = ${localStorage_supported}`)
 
