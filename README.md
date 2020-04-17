@@ -21,3 +21,5 @@ Simple JavaScript todo list using browser localStorage instead of a client side 
 1. Rename list
 2. Copy list to new list
 3. Hide test list buttons
+4. Check if localStorage is full when adding new items or lists
+5. Move error spans to below inputs

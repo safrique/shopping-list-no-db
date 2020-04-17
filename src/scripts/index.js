@@ -135,7 +135,7 @@ function getAddListButton (parent) {
 }
 
 function addList () {
-  console.log(`adding new list...`)
+  // console.log(`adding new list...`)
   let name = document.getElementById(`new_list_name`).value
   let error_span = document.getElementById(`add_error`)
 
@@ -154,20 +154,6 @@ function addList () {
   error_span.innerHTML = ``
   localStorage.setItem(name, `{}`)
   displayMenu()
-}
-
-function removeAllChildren (parent) {
-  console.log(`parent`, parent)
-
-  for (let child in parent.children) {
-    if (parent.children.hasOwnProperty(child) && parent.children[child].id !== `clear_all_lists`) {
-      console.log(parent, child, parent.children[child])
-      console.log(`removing child...`)
-      parent.removeChild(parent.children[child])
-    }
-  }
-
-  console.log(`parent`, parent)
 }
 
 function getMenuListItem (name) {
@@ -199,6 +185,25 @@ function getListElements (name) {
   h2.id = `list_name`
   h2.innerHTML = name
   list_div.appendChild(h2)
+
+  let ri = document.createElement(`input`)
+  ri.id = `rename_input`
+  ri.type = `text`
+  let rl = document.createElement(`label`)
+  rl.htmlFor = ri.id
+  rl.innerHTML = `Rename list: `
+  list_div.appendChild(rl)
+  list_div.appendChild(ri)
+
+  let rb = document.createElement(`button`)
+  rb.onclick = () => renameList()
+  rb.innerHTML = `Rename list`
+  list_div.appendChild(rb)
+
+  let rd = document.createElement(`div`)
+  rd.style.color = `red`
+  rd.id = `rename_error`
+  list_div.appendChild(rd)
 
   let h_outs = document.createElement(`h4`)
   h_outs.innerHTML = `Outstanding Items:`
@@ -449,4 +454,33 @@ function clearLocalStorage () {
     let li = document.querySelectorAll(` li`)
     for (let i = 0, j = li.length; i < j; i++) {li[i].parentNode.removeChild(li[i])}
   }
+}
+
+function renameList () {
+  let new_name = document.getElementById(`rename_input`).value
+  // console.log(`rename list to ${new_name}`)
+  let error_div = document.getElementById(`rename_error`)
+  error_div.innerHTML = ``
+
+  if (new_name === ``) {
+    error_div.innerHTML = `Please enter a name to rename the list to!!`
+    return false
+  }
+
+  error_div.innerHTML = ``
+  let old_name = document.getElementById(`list_name`)
+  // console.log(`rename list ${old_name.innerHTML} to ${new_name}...`)
+
+  for (let list in localStorage) {
+    if (localStorage.hasOwnProperty(list) && list === old_name.innerHTML) {
+      localStorage.setItem(new_name, localStorage[list])
+      localStorage.removeItem(old_name.innerHTML)
+      old_name.innerHTML = new_name
+      return true
+    }
+  }
+}
+
+function copyList () {
+
 }
