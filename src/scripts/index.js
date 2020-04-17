@@ -37,26 +37,20 @@ function addTestLists (reset = false) {
     console.log(`list=${list} -- data=${lists[list]}`)
     let list_found = false
 
-    for (let old_list in localStorage) {
-      // if (reset || list !== old_list) {
-      //   localStorage.setItem(list, lists[list])
-      //   console.log(`list ${list} ${reset ? 'reset' : 'added'}...`)
-      //   continue
-      // }
-      //
-      // console.log(`list ${list} already exists...`)
-
-      if (list === old_list) {
+    for (let curr_list in localStorage) {
+      if (list === curr_list) {
         if (reset) {
+          console.log(`curr_list=${curr_list} -- data=${localStorage[curr_list]}`)
           localStorage.setItem(list, lists[list])
-          console.log(`list ${list} rest...`)
-        } else { console.log(`list ${list} already exists...`) }
+          console.log(`list ${list} reset...`)
+        } else { console.log(`list ${list} already exists. exiting...`) }
 
-        // TODO: fix logic here
         list_found = true
-        continue
+        break
       }
+    }
 
+    if (!list_found) {
       localStorage.setItem(list, lists[list])
       console.log(`list ${list} added...`)
     }
@@ -150,8 +144,15 @@ function addList () {
     return false
   }
 
-  localStorage.setItem(name, `{}`)
+  for (let curr_list in localStorage) {
+    if (name === curr_list) {
+      error_span.innerHTML = `Please use a list name not yet in use`
+      return false
+    }
+  }
+
   error_span.innerHTML = ``
+  localStorage.setItem(name, `{}`)
   displayMenu()
 }
 
@@ -289,11 +290,10 @@ function itemStatusChanged (cb) {
   }
 
   // console.log(`list_item=${list_item}`)
-  // localStorage.setItem(list_item, cb.checked ? `checked` : ``)
-  updateLocalstorage(list_item, cb.checked)
+  updateLocalStorage(list_item, cb.checked)
 }
 
-function updateLocalstorage (list_item, new_val) {
+function updateLocalStorage (list_item, new_val) {
   let list_name = document.getElementById(`list_name`).innerHTML
   // console.log(`list_name=${list_name} -- list_item=${list_item} -- new_val=${new_val}`)
   // console.log(localStorage)
@@ -304,35 +304,43 @@ function updateLocalstorage (list_item, new_val) {
       let items = JSON.parse(localStorage[list])
       // console.log(items)
 
+      let key_found = false
+
       for (let key in items) {
         if (items.hasOwnProperty(key) && list_item === key) {
           // console.log(`list_item=${key} -- val=${items[key]} -- new_val=${new_val}`)
           items[key] = new_val
+          key_found = true
           break
         }
       }
 
+      // console.log(`new_items`, items)
+      if (!key_found) items[list_item] = new_val
+
+      // console.log(`new_items`, items)
       items = JSON.stringify(items)
       // console.log(`new_items`, items)
       localStorage[list] = items
       // console.log(localStorage)
-      break
+      return true
     }
   }
 }
 
 function getListItem (key) {
+  let id = key.replace(` `, `_`)
   let li = document.createElement(`li`)
   let s = document.createElement(`span`)
   let st = document.createElement(`span`)
   let cb = document.createElement(`input`)
 
-  li.id = `li_${key}`
-  cb.id = `cb_${key}`
+  li.id = `li_${id}`
+  cb.id = `cb_${id}`
   cb.type = `checkbox`
   cb.onchange = () => itemStatusChanged(cb)
   st.innerHTML = key
-  st.id = `span_${key}`
+  st.id = `span_${id}`
 
   s.appendChild(cb)
   li.appendChild(s)
@@ -342,7 +350,7 @@ function getListItem (key) {
 }
 
 function addItem () {
-  console.log(`adding item...`)
+  // console.log(`adding item...`)
   let item = document.getElementById(`add_item`)
   let error_span = document.getElementById(`add_error`)
 
@@ -352,22 +360,23 @@ function addItem () {
   }
 
   error_span.innerHTML = ``
-  // localStorage.setItem(item.value, `checked`)
   let new_item = getListItem(item.value)
   new_item.cb.checked = false
+  updateLocalStorage(item.value, false)
   document.getElementById(`outs_items`).appendChild(new_item.li)
   item.value = ``
 }
 
-function clearList () {
+function clearList () {}
 
-}
+function deleteList () {}
 
 function clearLocalStorage () {
   if (confirm(`Are you sure you want to clear all list? This can't be undone!!`)) {
     localStorage.clear()
-    let li = document.querySelectorAll(` li`)
+    displayMenu()
 
+    let li = document.querySelectorAll(` li`)
     for (let i = 0, j = li.length; i < j; i++) {li[i].parentNode.removeChild(li[i])}
   }
 }
