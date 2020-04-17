@@ -1,10 +1,10 @@
-let local_storage_supported = checkLocalStorage()
+let local_storage_supported = checkLocalStorageSupported()
 
 // console.log(`localStorage supported = ${local_storage_supported}`)
 
-function checkLocalStorage () {
+function checkLocalStorageSupported () {
   try {
-    let test = `test`
+    let test = `check_local_storage_supported`
     localStorage.setItem(test, test)
     localStorage.removeItem(test)
     return true
@@ -14,14 +14,55 @@ function checkLocalStorage () {
 }
 
 window.onload = () => {
+  if (local_storage_supported) {
+    if (!localStorage.length) addTestLists()
+    displayMenu()
+  } else { removeMainItems() }
+}
+
+function addTestLists (reset = false) {
   // localStorage.setItem(`list1`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
   // localStorage.setItem(`list2`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
   // localStorage.setItem(`list3`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
   // localStorage.setItem(`list4`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
 
-  if (local_storage_supported) {
-    displayMenu()
-  } else { removeMainItems() }
+  let lists = {
+    'list1': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list2': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list3': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list4': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+  }
+
+  for (let list in lists) {
+    console.log(`list=${list} -- data=${lists[list]}`)
+    let list_found = false
+
+    for (let old_list in localStorage) {
+      // if (reset || list !== old_list) {
+      //   localStorage.setItem(list, lists[list])
+      //   console.log(`list ${list} ${reset ? 'reset' : 'added'}...`)
+      //   continue
+      // }
+      //
+      // console.log(`list ${list} already exists...`)
+
+      if (list === old_list) {
+        if (reset) {
+          localStorage.setItem(list, lists[list])
+          console.log(`list ${list} rest...`)
+        } else { console.log(`list ${list} already exists...`) }
+
+        // TODO: fix logic here
+        list_found = true
+        continue
+      }
+
+      localStorage.setItem(list, lists[list])
+      console.log(`list ${list} added...`)
+    }
+  }
+
+  displayMenu()
 }
 
 function removeMainItems () {
@@ -34,24 +75,84 @@ function removeMainItems () {
 
 function displayMenu () {
   let main_div = document.getElementById(`main`)
-  // removeAllChildren(main_div)
   let list_div = document.getElementById(`list_div`)
   if (list_div !== null) main_div.removeChild(list_div)
+  let menu = document.getElementById(`menu`)
+  if (menu !== null) main_div.removeChild(menu)
 
-  let menu = document.createElement(`ol`)
+  menu = document.createElement(`div`)
   menu.id = `menu`
   main_div.appendChild(menu)
 
-  for (let list_name in localStorage) {
-    if (localStorage.hasOwnProperty(list_name)) {
+  let ol = document.createElement(`ol`)
+  menu.appendChild(ol)
+
+  for (let list in localStorage) {
+    if (localStorage.hasOwnProperty(list)) {
       try {
-        JSON.parse(localStorage[list_name])
-        // console.log(list_name, item)
-        let li = getMenuListItem(list_name)
-        menu.appendChild(li)
-      } catch (e) { console.log(list_name, e)}
+        JSON.parse(localStorage[list])
+        // console.log(list, item)
+        let li = getMenuListItem(list)
+        ol.appendChild(li)
+      } catch (e) { console.log(list, e)}
     }
   }
+
+  getAddListButton(menu)
+  addTestListButtons(menu)
+}
+
+function addTestListButtons (parent) {
+  let d = document.createElement(`div`)
+  d.id = `test_lists_div`
+  parent.appendChild(d)
+
+  let b = document.createElement(`button`)
+  b.textContent = `Add Test Lists`
+  b.onclick = () => addTestLists()
+  d.appendChild(b)
+
+  let br = document.createElement(`button`)
+  br.textContent = `Reset Test Lists`
+  br.onclick = () => addTestLists(true)
+  br.style.marginLeft = `1em`
+  d.appendChild(br)
+}
+
+function getAddListButton (parent) {
+  let l = document.createElement(`label`)
+  l.innerHTML = `Add new list: `
+  parent.appendChild(l)
+
+  let i = document.createElement(`input`)
+  i.id = `new_list_name`
+  i.type = `text`
+  parent.appendChild(i)
+
+  let b = document.createElement(`button`)
+  b.onclick = () => addList()
+  b.textContent = `Add list`
+  parent.appendChild(b)
+
+  let s = document.createElement(`span`)
+  s.id = `add_error`
+  s.style.color = `red`
+  parent.appendChild(s)
+}
+
+function addList () {
+  console.log(`adding new list...`)
+  let name = document.getElementById(`new_list_name`).value
+  let error_span = document.getElementById(`add_error`)
+
+  if (name === ``) {
+    error_span.innerHTML = `Please add a valid list name to create a new list!!`
+    return false
+  }
+
+  localStorage.setItem(name, `{}`)
+  error_span.innerHTML = ``
+  displayMenu()
 }
 
 function removeAllChildren (parent) {
