@@ -1,0 +1,23 @@
+h1 {
+    margin-left: 0.5em;
+}
+
+h2 {
+    margin-left: 1em;
+}
+
+a {
+    cursor: pointer;
+}
+
+label {
+    margin-left: 3em;
+}
+
+#menu_div {
+    padding-left: 3em;
+}
+
+#add_list_input {
+    margin: 2em 0.5em;
+}

@@ -1,14 +1,14 @@
-class List {
-  constructor () { this.setDefaults() }
+class ListService {
+  constructor (name) { this.setDefaults(name) }
 
-  setDefaults () {
+  setDefaults (name) {
     this.add_item = this.setAddItemElement()
     this.completed = this.setCompletedItems()
     this.copy = this.setCopyListElement()
     this.delete = this.setDeleteListElement()
     this.delete_completed = this.setDeleteCompletedItemsElement()
     this.delete_items = this.setDeleteAllItemsElement()
-    this.name = this.setNameElement()
+    this.name = this.setNameElement(name)
     this.outstanding = this.setOutstandingItems()
     this.rename = this.setRenameElement()
     this.return = this.setReturnToMenuElement()

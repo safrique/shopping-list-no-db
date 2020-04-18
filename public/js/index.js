@@ -1,11 +1,6 @@
-// import * as list from '../../app/Services/List'
-
 `use strict`
 
 let localStorage_supported = checkLocalStorageSupported()
-
-// let list = new List()
-// console.log(list.add_item)
 
 // console.log(`localStorage supported = ${localStorage_supported}`)
 
@@ -34,10 +29,10 @@ function addTestLists (reset = false) {
   // localStorage.setItem(`list4`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
 
   let lists = {
-    'list1': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
-    'list2': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
-    'list3': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
-    'list4': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list.list1': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list.list2': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list.list3': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list.list4': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
   }
 
   for (let list in lists) {
