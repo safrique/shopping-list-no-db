@@ -48,7 +48,7 @@ export class AbstractService {
 
   addButton (button_text, click_function, params) {
     this.assignButton(
-      button_text.replace(` `, `_`).toLowerCase(),
+      button_text.replace(/ /g, `_`).toLowerCase(),
       new Button(button_text, click_function, params).getComponent()
     )
   }

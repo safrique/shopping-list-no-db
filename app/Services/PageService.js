@@ -23,15 +23,15 @@ export class PageService extends AbstractService {
 
   setDefaults () {
     super.setDefaults()
-    this.addButton(
-      `Rename Title`, Helper.renameElement,
+    this.addButton(`Rename Title`, Helper.renameElement,
       [`${this.getThisPrefix().replace('.', '_')}name`, this.getThisPrefix() + `name`])
     this.setMainErrorComponent()
     // this.setMenuComponent()
     // this.setAddListComponent()
-    // this.addButton(`Add Test lists`, this.addTestLists, false)
-    // this.addButton(`Reset Test lists`, this.addTestLists, [true])
-    // this.addButton(`Clear local storage`, this.clearAppLocalStorage, false)
+    // this.addButton(`Add Test lists`, this.addTestLists, [false])
+    this.addButton(`Add Test lists`, this.addTestLists, [])
+    this.addButton(`Reset Test lists`, this.addTestLists, [true])
+    this.addButton(`Clear local storage`, this.clearAppLocalStorage, [false])
     this.bindComponents()
   }
 
@@ -43,9 +43,11 @@ export class PageService extends AbstractService {
   }
 
   assignButton (name, button) {
+    // console.log(`name=${name} -- button=`, button)
     switch (name) {
       case `add_test_lists`:
         this.add_test_lists = button
+        // console.log(`assign add_test_lists=`, this.add_test_lists, `button=`, button)
         break
       case `reset_test_lists`:
         this.reset_test_lists = button
@@ -78,9 +80,10 @@ export class PageService extends AbstractService {
     this.main_component.appendChild(this.rename_title)
     this.main_component.appendChild(this.main_error)
     // this.main_component.appendChild(this.menu)
-    // this.main_component.appendChild(this.add_test_lists)
-    // this.main_component.appendChild(this.reset_test_lists)
-    // this.main_component.appendChild(this.clear_local_storage)
+    // console.log(`add_test_lists=`, this.add_test_lists)
+    this.main_component.appendChild(this.add_test_lists)
+    this.main_component.appendChild(this.reset_test_lists)
+    this.main_component.appendChild(this.clear_local_storage)
   }
 }
 

@@ -7,11 +7,11 @@ export class Button extends Component {
   }
 
   buildComponent (button_text, click_function, params) {
-    console.log(`button_text=${button_text} click_function=${click_function} params: string=${params.toString()} > spread=`, ...params, ` > array=`, params)
-    // if (Array.isArray(params)) params = ...params
+    // console.log(`button_text=${button_text} click_function=${click_function} params: string=${params.toString()} > spread=`, ...params, ` > array=`, params)
     this.component = document.createElement(`button`)
     this.component.innerHTML = button_text
-    // this.component.onclick = () => click_function(Array.isArray(params) ? params.toString() : params)
-    this.component.onclick = () => click_function(...params)
+    if (params.length) {
+      this.component.onclick = () => click_function(...params)
+    } else { this.component.onclick = () => click_function(params) }
   }
 }
