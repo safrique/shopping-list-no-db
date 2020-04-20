@@ -2,37 +2,58 @@ class ListService {
   constructor (name) { this.setDefaults(name) }
 
   setDefaults (name) {
-    this.add_item = this.setAddItemElement()
-    this.completed = this.setCompletedItems()
-    this.copy = this.setCopyListElement()
-    this.delete = this.setDeleteListElement()
-    this.delete_completed = this.setDeleteCompletedItemsElement()
-    this.delete_items = this.setDeleteAllItemsElement()
-    this.name = this.setNameElement(name)
-    this.outstanding = this.setOutstandingItems()
-    this.rename = this.setRenameElement()
-    this.return = this.setReturnToMenuElement()
+    this.setName(name)
+    this.setMainId()
+    this.setFragment()
+    this.setMainDiv()
+    // this.setList()
+
+    // this.setNameElement(name)
+    // this.setAddItemElement()
+    // this.setCompletedItems()
+    // this.setCopyListElement()
+    // this.setDeleteListElement()
+    // this.setDeleteCompletedItemsElement()
+    // this.setDeleteAllItemsElement()
+    // this.setOutstandingItems()
+    // this.setRenameElement()
+    // this.setReturnToMenuElement()
+    this.bindElements()
   }
 
-  setAddItemElement () { return `Add Item` }
+  setName (name) { this.name = name }
 
-  setCompletedItems () { return `` }
+  setMainId () { ListFactory.getListId(this.name) }
 
-  setCopyListElement () { return `` }
+  setFragment () {
+    this.fragment = Helper.getFragment(ListFactory.getListId())
+  }
 
-  setDeleteAllItemsElement () { return `` }
+  setMainDiv () { this.main_div = this.fragment.getElementById(ListFactory.getListId()) }
 
-  setDeleteCompletedItemsElement () { return `` }
+  // setList () { this.main_div.appendChild(ListFactory.getList()) }
 
-  setDeleteListElement () { return `` }
+  setAddItemElement () { this.add_item = `Add Item` }
 
-  setNameElement () { return `` }
+  setCompletedItems () { this.completed = `` }
 
-  setOutstandingItems () {return ``}
+  setCopyListElement () { this.copy = `` }
 
-  setRenameElement () { return `` }
+  setDeleteAllItemsElement () { this.delete_items = `` }
 
-  setReturnToMenuElement () { return `` }
+  setDeleteCompletedItemsElement () { this.delete_completed = `` }
+
+  setDeleteListElement () { this.delete = `` }
+
+  // setNameElement (name) { this.name = Helper.getNameElement(ListFactory.getMainListElementId(), name.replace(`list.`, ``), name) }
+
+  setOutstandingItems () { this.outstanding = `` }
+
+  setRenameElement () { this.rename = `` }
+
+  setReturnToMenuElement () { this.return = `` }
+
+  setMainListElement () { this.main_list_element = ListFactory.getElementById(ListFactory.getMainListElementId()) }
 
   addItem () {}
 
@@ -47,4 +68,9 @@ class ListService {
   renameList () {}
 
   returnToMenu () {}
+
+  bindElements () {
+    // this.main_list_element.appendChild(this.name)
+    this.main_div.appendChild(ListFactory.getList())
+  }
 }

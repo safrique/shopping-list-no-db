@@ -1,4 +1,6 @@
 class MenuFactory {
+  static getMainMenuId () { return `main_menu_div` }
+
   static getMenu () {
     let menu = document.createElement(`div`)
     menu.id = `menu_div`

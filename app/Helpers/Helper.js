@@ -7,16 +7,16 @@ class Helper {
     return frag
   }
 
-  static getNameElement (id, header, header_name, header_type = `h2`) {
+  static getNameElement (header_id, header_text, header_name, header_type = `h2`) {
     let h = document.createElement(header_type)
-    h.id = id
+    h.id = header_id
     let storage_item = localStorage.getItem(header_name)
 
     if (storage_item) {
-      header = storage_item
-    } else { localStorage.setItem(header_name, header) }
+      header_text = storage_item
+    } else { localStorage.setItem(header_name, header_text) }
 
-    h.innerHTML = header
+    h.innerHTML = header_text
     return h
   }
 

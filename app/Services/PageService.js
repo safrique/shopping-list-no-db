@@ -1,7 +1,7 @@
 class PageService {
-  name_element_id = `main_page_div`
-
   constructor () { this.setDefaults() }
+
+  getMainElementId () { return `main_page_div` }
 
   setDefaults () {
     this.setFragment()
@@ -10,13 +10,21 @@ class PageService {
     this.bindElements()
   }
 
-  set setList(name) { this.list = new ListService(name) }
+  setList (name) { this.list = new ListService(name) }
 
-  setFragment () { this.fragment = Helper.getFragment(this.name_element_id) }
+  setFragment () { this.fragment = Helper.getFragment(this.getMainElementId()) }
 
   setMenu () { this.menu = new MenuService() }
 
-  setNameElement () { this.name = Helper.getNameElement(`main_header`, `ToDo List`, `header.name`, `h1`) }
+  setNameElement () { this.name = Helper.getNameElement(`main_header`, `ToDo Lists`, `page.name`, `h1`) }
+
+  showList (name) {
+    this.setList(name)
+    // console.log(`body:`, document.body)
+    document.body.removeChild(document.getElementById(this.menu.getMainMenuId()))
+    document.body.appendChild(this.list.fragment)
+    // console.log(`added list: ${name} -- body:`, document.body)
+  }
 
   bindElements () {
     this.fragment.appendChild(this.name)
