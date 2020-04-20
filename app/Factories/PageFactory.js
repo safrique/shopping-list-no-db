@@ -7,11 +7,11 @@ window.onload = () => {
   console.log(`localStorage`, localStorage)
 }
 
-function testMe (input) {
-  console.log(`testing 123... name=${input}`)
-  page.showList(input)
-}
+// function testMe (input) {
+//   console.log(`testing 123... name=${input}`)
+//   page.showList(input)
+// }
 
-function viewList (name) {
-  page.showList(name)
-}
+// function viewList (name) {
+//   page.showList(name)
+// }
