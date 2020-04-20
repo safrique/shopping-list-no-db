@@ -1,4 +1,7 @@
-class AbstractService {
+import { Fragment } from '../Factories/Components/Fragment.js'
+import { Title } from '../Factories/Components/Title.js'
+
+export class AbstractService {
   constructor () {
     this.checkInstantiation()
     this.setRequired()

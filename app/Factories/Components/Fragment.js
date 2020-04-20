@@ -1,4 +1,6 @@
-class Fragment extends Component {
+import { Component } from './Component.js'
+
+export class Fragment extends Component {
   constructor (id) {
     super()
     this.buildComponent(id)

@@ -1,4 +1,6 @@
-class MenuService {
+import { AbstractService } from './AbstractService.js'
+
+export class MenuService {
   constructor () { return document.createElement(`div`) }
 }
 

@@ -1,4 +1,6 @@
-class Title extends Component {
+import { Component } from './Component.js'
+
+export class Title extends Component {
   constructor (header_id, header_text, header_name, header_type = `h2`) {
     super()
     this.buildComponent(header_id, header_text, header_name, header_type = `h2`)

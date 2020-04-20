@@ -1,4 +1,6 @@
-class ListService {
+import { AbstractService } from './AbstractService.js'
+
+export class ListService {
   constructor (name) {}
 }
 

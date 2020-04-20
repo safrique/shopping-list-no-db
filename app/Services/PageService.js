@@ -1,4 +1,9 @@
-class PageService extends AbstractService {
+import { AbstractService } from './AbstractService.js'
+import { ListService } from './ListService.js'
+import { MenuService } from './MenuService.js'
+import { Button } from '../Factories/Components/Button.js'
+
+export class PageService extends AbstractService {
   // Page has components:
   //  - Fragment with a main component div
   //  - Title

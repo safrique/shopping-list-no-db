@@ -1,4 +1,6 @@
-class Button extends Component {
+import { Component } from './Component.js'
+
+export class Button extends Component {
   constructor (button_text, onclick, params) {
     super()
     this.buildComponent(button_text, onclick, params)
