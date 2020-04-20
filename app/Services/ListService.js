@@ -55,7 +55,7 @@ export class ListService {
 //
 //   setOutstandingItems () { this.outstanding = `` }
 //
-//   setRenameElement () { this.rename = `` }
+//   setRenameElement () { this.renameElement = `` }
 //
 //   setReturnToMenuElement () { this.return = `` }
 //

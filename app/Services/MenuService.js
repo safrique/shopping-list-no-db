@@ -37,7 +37,7 @@ export class MenuService {
 //
 //   setNewListElement () { this.add_new_list = Helper.getInputGroup(`Add new list: `, `Add list`, `add_list_input`, `add_list_error`, ListFactory.addList) }
 //
-//   setRenameElement () { this.rename = `` }
+//   setRenameElement () { this.renameElement = `` }
 //
 //   setResetTestListsElement () { this.reset_test_lists = `` }
 //

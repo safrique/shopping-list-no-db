@@ -465,7 +465,7 @@ function clearLocalStorage () {
 
 function renameList () {
   let new_name = document.getElementById(`rename_input`).value
-  // console.log(`rename list to ${new_name}`)
+  // console.log(`renameElement list to ${new_name}`)
   let error_div = document.getElementById(`rename_error`)
   error_div.innerHTML = ``
 
@@ -476,7 +476,7 @@ function renameList () {
 
   error_div.innerHTML = ``
   let old_name = document.getElementById(`list_name`)
-  // console.log(`rename list ${old_name.innerHTML} to ${new_name}...`)
+  // console.log(`renameElement list ${old_name.innerHTML} to ${new_name}...`)
 
   for (let list in localStorage) {
     if (localStorage.hasOwnProperty(list) && list === old_name.innerHTML) {

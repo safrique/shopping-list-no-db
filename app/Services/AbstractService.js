@@ -1,5 +1,6 @@
 import { Fragment } from '../Factories/Components/Fragment.js'
 import { Title } from '../Factories/Components/Title.js'
+import { Button } from '../Factories/Components/Button.js'
 
 export class AbstractService {
   constructor () {
@@ -33,8 +34,10 @@ export class AbstractService {
   }
 
   setDefaults () {
+    this.setAppPrefixes()
     this.setFragmentComponent()
     this.setMainComponent()
+    this.setTitleComponent()
   }
 
   setFragmentComponent () {
@@ -43,19 +46,71 @@ export class AbstractService {
 
   setMainComponent () { this.main_component = this.fragment.getElementById(this.getMainComponentId()) }
 
-  rename (what) {}
+  addButton (button_text, click_function, params) {
+    this.assignButton(
+      button_text.replace(` `, `_`).toLowerCase(),
+      new Button(button_text, click_function, params).getComponent()
+    )
+  }
 
-  clearLocalStorage () {}
+  /**
+   * Assigns the button to the respective component
+   *
+   * @param name
+   * @param button
+   */
+  assignButton (name, button) {}
 
-  getMainComponentId () { return `main_component` }
+  updateLocalStorage () {}
 
-  getNameKey () { return `page.name` }
+  setAppPrefixes () {
+    this.prefixes_obj = {
+      'page': `page.`,
+      'menu': `menu.`,
+      'list': `list.`,
+    }
 
-  getName () { return `ToDo Lists` }
+    this.setPrefixes()
+  }
 
-  getHeaderType () { return `h1` }
+  setPrefixes () {
+    this.prefixes_arr = []
 
-  getNameComponentId () { return `page_name` }
+    for (let key in this.prefixes_obj) {
+      if (this.prefixes_obj.hasOwnProperty(key)) {
+        this.prefixes_arr.push(this.prefixes_obj[key])
+      }
+    }
+  }
 
-  setTitleComponent () { this.title = new Title(this.getNameComponentId(), this.getName(), this.getNameKey(), this.getHeaderType()).getComponent() }
+  clearAppLocalStorage () {
+    if (confirm(`Are you sure you want to delete all the app storage? This can't be undone!!`)) {
+      for (let item in localStorage) {
+        if (localStorage.hasOwnProperty(item)) {
+          let pos = localStorage[item].indexOf(`.`) + 1
+          if (pos) {
+            if (this.prefixes_arr.indexOf(localStorage[item].substr(0, pos)) >= -1) {
+              localStorage.removeItem(item)
+            }
+          }
+        }
+      }
+    }
+  }
+
+  getHeaderType () { return `` }
+
+  getName () { return `` }
+
+  getThisPrefix () { return `` }
+
+  getMainComponentId () { return `${this.getThisPrefix().replace('.', '_')}main_component` }
+
+  getNameKey () { return `${this.getThisPrefix()}name` }
+
+  getNameComponentId () { return `${this.getThisPrefix().replace('.', '_')}name` }
+
+  setTitleComponent () {
+    this.title = new Title(this.getNameComponentId(), this.getName(), this.getNameKey(), this.getHeaderType()).getComponent()
+  }
 }

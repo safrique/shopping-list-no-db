@@ -1,13 +1,14 @@
 import { AbstractService } from './AbstractService.js'
 import { ListService } from './ListService.js'
 import { MenuService } from './MenuService.js'
-import { Button } from '../Factories/Components/Button.js'
+import { Helper } from '../Helpers/Helper.js'
 
 export class PageService extends AbstractService {
   // Page has components:
   //  - Fragment with a main component div
   //  - Title
   //  - Rename Title button
+  //  - Main error component
   //  - Menu
   //  - Add list input component
   //  - Add Test lists button
@@ -20,28 +21,25 @@ export class PageService extends AbstractService {
   //    * Create components
   //    * Bind components
 
-  // constructor () {
-  //   super()
-  //   this.setDefaults()
-  // }
-
   setDefaults () {
     super.setDefaults()
-    this.setTitleComponent()
-    this.addButton(`Rename Title`, this.rename, { 'rename': `title` })
-    this.setMenuComponent()
-    this.setAddListComponent()
-    this.addButton(`Add Test lists`, this.addTestLists(), false)
-    this.addButton(`Reset Test lists`, this.addTestLists(true), false)
-    this.addButton(`Clear local storage`, this.clearLocalStorage(), false)
+    this.addButton(
+      `Rename Title`, Helper.renameElement,
+      [`${this.getThisPrefix().replace('.', '_')}name`, this.getThisPrefix() + `name`])
+    this.setMainErrorComponent()
+    // this.setMenuComponent()
+    // this.setAddListComponent()
+    // this.addButton(`Add Test lists`, this.addTestLists, false)
+    // this.addButton(`Reset Test lists`, this.addTestLists, [true])
+    // this.addButton(`Clear local storage`, this.clearAppLocalStorage, false)
     this.bindComponents()
   }
 
-  addButton (button_text, onclick, params) {
-    this.assignButton(
-      button_text.replace(` `, `_`).toLowerCase(),
-      new Button(button_text, onclick, params).getComponent()
-    )
+  setMainErrorComponent () {
+    this.main_error = document.createElement(`div`)
+    this.main_error.id = `main_page_error`
+    this.main_error.style.color = `red`
+    this.main_error.style.marginLeft = `3em`
   }
 
   assignButton (name, button) {
@@ -56,6 +54,7 @@ export class PageService extends AbstractService {
         this.clear_local_storage = button
         break
       default:
+        button.style.marginLeft = `8em`
         this.rename_title = button
     }
   }
@@ -68,9 +67,16 @@ export class PageService extends AbstractService {
 
   setListComponent (name) { this.list = new ListService(name) }
 
+  getThisPrefix () { return this.prefixes_obj.page }
+
+  getName () { return `ToDo Lists` }
+
+  getHeaderType () { return `h1` }
+
   bindComponents () {
     this.main_component.appendChild(this.title)
-    // this.main_component.appendChild(this.rename_title)
+    this.main_component.appendChild(this.rename_title)
+    this.main_component.appendChild(this.main_error)
     // this.main_component.appendChild(this.menu)
     // this.main_component.appendChild(this.add_test_lists)
     // this.main_component.appendChild(this.reset_test_lists)

@@ -1,7 +1,7 @@
 // Builds the page
 import { PageService } from '../Services/PageService.js'
 
-console.log(`localStorage`, localStorage)
+// console.log(`localStorage`, localStorage)
 let page = new PageService()
 
 window.onload = () => {

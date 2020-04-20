@@ -1,6 +1,6 @@
 export class Component {
   constructor () {
-    this.component = `` //document.createElement(`div`)
+    this.component = ``
     this.setRequired()
     this.checkInstantiation()
     this.checkRequired()
