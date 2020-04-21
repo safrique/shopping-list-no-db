@@ -1,3 +1,6 @@
+// This is the first version and is no longer applicable.
+// Please refer to the modular setup under the app directory
+
 `use strict`
 
 let localStorage_supported = checkLocalStorageSupported()
@@ -29,10 +32,10 @@ function addTestLists (reset = false) {
   // localStorage.setItem(`list4`, `{"item1":true, "item2":false, "item3":true, "item4":false}`)
 
   let lists = {
-    'list.list1': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
-    'list.list2': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
-    'list.list3': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
-    'list.list4': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list_name.list1': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list_name.list2': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list_name.list3': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
+    'list_name.list4': `{"item1":true, "item2":false, "item3":true, "item4":false}`,
   }
 
   for (let list in lists) {

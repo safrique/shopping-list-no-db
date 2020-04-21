@@ -1,6 +1,7 @@
 import { AbstractService } from './AbstractService.js'
 import { ListService } from './ListService.js'
 import { MenuService } from './MenuService.js'
+import { Helper } from '../Helpers/Helper.js'
 
 export class PageService extends AbstractService {
   // Page has components:
@@ -23,7 +24,9 @@ export class PageService extends AbstractService {
   setDefaults () {
     super.setDefaults()
     this.setMainErrorComponent()
-    // this.setMenuComponent()
+    this.addButton(`Rename Title`, Helper.renameElement,
+      [`${this.getThisPrefix().replace('.', '_')}name`, this.getThisPrefix() + `name`])
+    this.setMenuComponent()
     // this.setAddListComponent()
     this.addButton(`Add Test lists`, this.addTestLists, [])
     this.addButton(`Reset Test lists`, this.addTestLists, [true])
@@ -73,11 +76,9 @@ export class PageService extends AbstractService {
 
   bindComponents () {
     super.bindComponents()
-    // this.main_component.appendChild(this.title)
-    // this.main_component.appendChild(this.rename_title)
     this.main_component.appendChild(this.main_error)
-    // this.main_component.appendChild(this.menu)
-    // console.log(`add_test_lists=`, this.add_test_lists)
+    // console.log(`menu.fragment=`, this.menu.fragment)
+    this.main_component.appendChild(this.menu.fragment)
     this.main_component.appendChild(this.add_test_lists)
     this.main_component.appendChild(this.reset_test_lists)
     this.main_component.appendChild(this.clear_local_storage)

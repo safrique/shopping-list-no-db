@@ -39,8 +39,10 @@ export class AbstractService {
     this.setFragmentComponent()
     this.setMainComponent()
     this.setTitleComponent()
-    this.addButton(`Rename Title`, Helper.renameElement,
-      [`${this.getThisPrefix().replace('.', '_')}name`, this.getThisPrefix() + `name`])
+    // TODO: Change button text & margin with logic from different extended classes
+    // this.addButton(`Rename Title`, Helper.renameElement,
+    //   [`${this.getThisPrefix().replace('.', '_')}name`, this.getThisPrefix() + `name`])
+
   }
 
   setFragmentComponent () {
@@ -49,10 +51,10 @@ export class AbstractService {
 
   setMainComponent () { this.main_component = this.fragment.getElementById(this.getMainComponentId()) }
 
-  addButton (button_text, click_function, params) {
+  addButton (button_text, click_function, params, left_margin = `0`) {
     this.assignButton(
       button_text.replace(/ /g, `_`).toLowerCase(),
-      new Button(button_text, click_function, params).getComponent()
+      new Button(button_text, click_function, params, left_margin).getComponent()
     )
   }
 
