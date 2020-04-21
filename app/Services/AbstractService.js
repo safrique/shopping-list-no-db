@@ -1,6 +1,7 @@
 import { Fragment } from '../Factories/Components/Fragment.js'
 import { Title } from '../Factories/Components/Title.js'
 import { Button } from '../Factories/Components/Button.js'
+import { Helper } from '../Helpers/Helper.js'
 
 export class AbstractService {
   constructor () {
@@ -38,6 +39,8 @@ export class AbstractService {
     this.setFragmentComponent()
     this.setMainComponent()
     this.setTitleComponent()
+    this.addButton(`Rename Title`, Helper.renameElement,
+      [`${this.getThisPrefix().replace('.', '_')}name`, this.getThisPrefix() + `name`])
   }
 
   setFragmentComponent () {
@@ -59,7 +62,11 @@ export class AbstractService {
    * @param name
    * @param button
    */
-  assignButton (name, button) {}
+  assignButton (name, button) {
+    // console.log(`name=${name} -- button=`, button)
+    button.style.marginLeft = `8em`
+    this.rename_title = button
+  }
 
   updateLocalStorage () {}
 
@@ -112,5 +119,10 @@ export class AbstractService {
 
   setTitleComponent () {
     this.title = new Title(this.getNameComponentId(), this.getName(), this.getNameKey(), this.getHeaderType()).getComponent()
+  }
+
+  bindComponents () {
+    this.main_component.appendChild(this.title)
+    this.main_component.appendChild(this.rename_title)
   }
 }

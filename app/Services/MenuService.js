@@ -1,7 +1,40 @@
 import { AbstractService } from './AbstractService.js'
 
-export class MenuService {
-  constructor () { return document.createElement(`div`) }
+export class MenuService extends AbstractService {
+// export class MenuService  {
+  // Menu has:
+  //  - Title
+  //  - Rename Title button
+  //  - Menu of lists
+
+  setDefaults () {
+    super.setDefaults()
+
+  }
+
+  // assignButton (name, button) {
+  //   // console.log(`name=${name} -- button=`, button)
+  //   switch (name) {
+  //     case `add_test_lists`:
+  //       this.add_test_lists = button
+  //       // console.log(`assign add_test_lists=`, this.add_test_lists, `button=`, button)
+  //       break
+  //     case `reset_test_lists`:
+  //       this.reset_test_lists = button
+  //       break
+  //     case `clear_local_storage`:
+  //       this.clear_local_storage = button
+  //       break
+  //     default:
+  //       button.style.marginLeft = `8em`
+  //       this.rename_title = button
+  //   }
+  // }
+
+  bindComponents () {
+    super.bindComponents()
+
+  }
 }
 
 // class MenuService {
