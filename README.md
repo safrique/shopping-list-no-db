@@ -1,4 +1,4 @@
-# shopping-list-no-db
+# todo-list
 Simple JavaScript todo list using browser localStorage instead of a client side database
 
 ## Functionality:
